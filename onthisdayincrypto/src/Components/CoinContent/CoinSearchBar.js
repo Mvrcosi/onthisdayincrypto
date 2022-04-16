@@ -3,7 +3,7 @@ import axios from 'axios'
 import CoinList from './CoinList'
 import CoinDetail from './CoinDetail'
 
-const CoinSearchBar = ({ coins }) => {
+const CoinSearchBar = () => {
 
     const [search, setSearch] = useState('')
     const [coinList, setCoinList] = useState([])
