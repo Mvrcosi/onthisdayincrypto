@@ -1,5 +1,6 @@
 import CoinsContainer from "./Components/CoinContent/CoinsContainer";
 import Header from "./Components/Header/Header";
+import Footer from './Components/Footer/Footer'
 
 
 function App() {
@@ -7,6 +8,7 @@ function App() {
     <div className="App">
       <Header />
       <CoinsContainer />
+      <Footer />
     </div>
   );
 }
