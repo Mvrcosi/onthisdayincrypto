@@ -45,9 +45,9 @@ const Footer = () => {
                 <p className='text-gray-400 p-2 text-xl sm:text-3xl '>
                     onthisdayincrypto
                 </p>
-                <p className='text-white font-bold text-xs mt-4 sm:text-lg'>Provides historical data for the top 100 cryptocurrencies throught thier life span.</p>
-                <p className='text-gray-400 p-3 font-bold text-xs sm:text-lg'> This website's purpose is to provide a visual representation of the markets throughout the years. </p>
-                <p className='font-bold text-xs sm:text-xl text-white '>No financial advice provided</p>
+                <p className='text-white font-bold text-xs mt-4 sm:text-lg'>Providing historical data for the top 100 cryptocurrencies through their life span.</p>
+                <p className='text-gray-400 p-3 font-bold text-xs sm:text-lg'> This website's purpose is to provide a visual representation of the markets over the years. </p>
+                <p className='font-bold text-xs sm:text-xl text-white '>No financial advice. DYOR</p>
                 <p className='text-gray-400 p-3 text-xs sm:text-lg'>Powered by <a className='font-bold underline decoration-1' href='https://www.coingecko.com/'>coingecko.com</a></p>
 
 
