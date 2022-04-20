@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import CoinList from './CoinList'
 import CoinDetail from './CoinDetail'
-
+import SearchIcon from '@mui/icons-material/Search';
 const CoinSearchBar = () => {
 
     const [search, setSearch] = useState('')
@@ -39,11 +39,18 @@ const CoinSearchBar = () => {
 
     return (
         <>
-            <div className='flex justify-center pt-3 '>
-                <input type='search' value={search} placeholder="Search by coin" onChange={onInputChange} className=' sm:w-1/4  p-1.5 bg-slate-600 outline-white rounded-lg '>
-                </input>
+            <div className='flex justify-center pt-2 sm:pt-3 '>
+
+                <div className=' ring  rounded mt-2 sm:w-2/4 '>
+
+                    <span className='text-white p-2'><SearchIcon /></span>
+
+                    <input type='search' value={search} placeholder="Search by coin" onChange={onInputChange} className='w-auto p-1 outline-none text-white  bg-transparent  sm:w-3/4  '>
+                    </input>
+                </div>
+
             </div>
-            <div className='flex mx-auto overflow-x-auto w-3/4 '>
+            <div className='flex mx-auto overflow-x-auto w-3/4 m-2 sm:w-3/4 '>
                 {filteredCoins.map((coin, idx) => {
                     const active = idx === activeIndex ? 'active: bg-sky-700 focus:ring ' : '';
                     return <CoinList active={active} handleChoice={() => handleChoice(coin.id, idx)} key={coin.id} name={coin.name} image={coin.image} rank={coin.market_cap_rank} />

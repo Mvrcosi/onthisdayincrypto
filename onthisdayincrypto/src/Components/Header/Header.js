@@ -1,5 +1,5 @@
 import React from 'react'
-import SettingsIcon from '@mui/icons-material/Settings';
+import SettingsModal from '../Settings/SettingsModal';
 const Header = () => {
     return (
         <header>
@@ -8,7 +8,7 @@ const Header = () => {
                     <p className='text-[22px]  sm:text-[28px]  md:text-[32px]  lg:text-[34px] 2xl:text-[38px] tracking-wide' >Onthisdayin<span className='font-thin'>crypto</span></p>
                 </div>
                 <div className='my-5 px-3 '>
-                    <button className='cursor-pointer'> <SettingsIcon /></button>
+                    {/* <SettingsModal /> */}
                 </div>
             </nav>
         </header>

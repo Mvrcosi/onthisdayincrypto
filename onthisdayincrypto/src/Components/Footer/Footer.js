@@ -39,20 +39,23 @@ const Footer = () => {
 
 
     return (
-        <footer className='flex p-5 mt-5 max-w-screen-2xl m-auto'>
+        <footer className='m-auto p-5 mt-5 sm:flex   md:p-3 md:mt-3 2xl:max-w-screen-xl'>
 
-            <section className=' flex flex-col w-2/4 mx-auto text-center justify-center'>
-                <p className='text-gray-400 p-2 text-3xl'>
+            <section className=' flex flex-col sm:w-2/4 mx-auto text-center justify-center'>
+                <p className='text-gray-400 p-2 text-xl sm:text-3xl '>
                     onthisdayincrypto
                 </p>
-                <p className='text-white p-3 font-bold text-2xl'> Provides you with information on the top 1000 cryptocurrency historical data throughout their life span.</p>
-                <p className='text-gray-400 p-3 text-xl'>No financial advice is given. This website's purpose is solely to provide a visual representation of the markets throughout the years. </p>
+                <p className='text-white font-bold text-xs mt-4 sm:text-lg'>Provides historical data for the top 100 cryptocurrencies throught thier life span.</p>
+                <p className='text-gray-400 p-3 font-bold text-xs sm:text-lg'> This website's purpose is to provide a visual representation of the markets throughout the years. </p>
+                <p className='font-bold text-xs sm:text-xl text-white '>No financial advice provided</p>
+                <p className='text-gray-400 p-3 text-xs sm:text-lg'>Powered by <a className='font-bold underline decoration-1' href='https://www.coingecko.com/'>coingecko.com</a></p>
+
 
 
             </section>
 
-            <section className='flex flex-col items-center mx-auto '  >
-                <p className='text-center text-white p-1 m-1'>Support my work </p>
+            <section className='flex flex-col items-center mx-auto  md:pb-5'  >
+                <p className='text-center text-white p-1 m-1 sm:text-4xl'>Support my work </p>
                 <a className='p-1 m-1 bg-gray-400 rounded-full ' href='https://twitter.com/dayincrypto' target='_blank' rel="noopener noreferrer" ><TwitterIcon /></a>
                 <FooterExchangeLinks
                     image={binanceImage}

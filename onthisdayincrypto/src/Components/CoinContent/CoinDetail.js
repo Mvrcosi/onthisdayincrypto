@@ -1,5 +1,5 @@
 import axios from 'axios'
-import React, { useEffect, useState, useMemo } from 'react'
+import React, { useEffect, useState } from 'react'
 import CoinInfo from './CoinInfo'
 import TwitterIcon from '@mui/icons-material/Twitter';
 import RedditIcon from '@mui/icons-material/Reddit';
@@ -28,30 +28,29 @@ const CoinDetail = ({ activeCoin }) => {
     const [volume, setVolume] = useState('')
     const [twitterFollowers, setTwitterFollowers] = useState('')
     const [redditSubs, setRedditSubs] = useState('')
-    const [totalSupply, setTotalSupply] = useState('')
-    const [circulatingSupply, setCirculatingSupply] = useState('')
     const [athPrice, setAthPrice] = useState('')
     const [atlPrice, setAtlPrice] = useState('')
     const [athDate, setAthDate] = useState('')
     const [atlDate, setAtlDate] = useState('')
-    const [rank, setRank] = useState('')
-    const [symbol, setSymbol] = useState('')
 
 
 
-    const getTodaysDate = () => {
-        let today = new Date();
-        let dd = String(today.getDate()).padStart(2, '0');
-        let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-        let yyyy = today.getFullYear();
-        setYear(yyyy)
-        today = `${dd}-${mm}-${yyyy}`;
-        return today
-    }
+    // const getTodaysDate = () => {
+    //     let today = new Date();
+    //     let dd = String(today.getDate()).padStart(2, '0');
+    //     let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    //     let yyyy = today.getFullYear();
+    //     setYear(yyyy)
+    //     today = `${dd}-${mm}-${yyyy}`;
+    //     return today
+    // }
 
     const coinInfo = []
 
+
+
     useEffect(() => {
+
 
 
         const getCoinData = async (coin, years) => {
@@ -62,14 +61,19 @@ const CoinDetail = ({ activeCoin }) => {
 
             for (let i = 0; i < years; i++) {
                 yyyy -= 1
+
                 await axios.get(`https://api.coingecko.com/api/v3/coins/${coin}/history?date=${dd}-${mm}-${yyyy}`).then((res) => {
-                    console.log(i)
+
                     if (Object.keys(res.data).includes('market_data')) {
                         coinInfo.push(res.data)
                     }
+                    else {
+                        return
+                    }
                 }).catch((err) => {
-                    console.log(err)
+                    throw console.log('network')
                 })
+
             }
 
             let year = today.getFullYear()
@@ -78,7 +82,7 @@ const CoinDetail = ({ activeCoin }) => {
             }
             setCoinData(coinInfo)
         }
-        getCoinData(activeCoin, 8)
+        getCoinData(activeCoin, 10)
 
 
 
@@ -92,34 +96,20 @@ const CoinDetail = ({ activeCoin }) => {
             axios.get(`https://api.coingecko.com/api/v3/coins/${coin}`)
                 .then((res) => {
 
-                    let symbol = res.data.symbol
                     let price = res.data.market_data.current_price.usd
                     let marketCap = formatter(res.data.market_data.market_cap.usd)
                     let volume = formatter(res.data.market_data.total_volume.usd)
                     let twitterFollows = formatter(res.data.community_data.twitter_followers)
                     let redditSubs = res.data.community_data.reddit_subscribers
-                    let image = res.data.image.small
-                    let circulatingSupply = res.data.market_data.circulating_supply
+                    let image = res.data.image.thumb
                     let athPrice = res.data.market_data.ath.usd
                     let atlPrice = res.data.market_data.atl.usd
                     let athDateInfo = new Date(res.data.market_data.ath_date.usd)
                     let athDate = athDateInfo.toDateString()
                     let atlDateInfo = new Date(res.data.market_data.atl_date.usd)
                     let atlDate = atlDateInfo.toDateString()
-                    let totalSupply = res.data.market_data.total_supply
-                    let rank = res.data.market_data.market_cap_rank
 
                     setPrice(price)
-                    setCirculatingSupply(circulatingSupply.toLocaleString('en-US', {
-                        minimumFractionDigits: 0,
-                        maximumFractionDigits: 0
-                    }))
-
-                    totalSupply !== null ?
-                        setTotalSupply(totalSupply.toLocaleString('en-US', {
-                            minimumFractionDigits: 0,
-                            maximumFractionDigits: 0
-                        })) : setTotalSupply(totalSupply)
                     setMarketCap(marketCap)
                     setVolume(volume)
                     setTwitterFollowers(twitterFollows)
@@ -128,9 +118,6 @@ const CoinDetail = ({ activeCoin }) => {
                     setAthDate(athDate)
                     setAtlPrice(atlPrice)
                     setAthPrice(athPrice)
-                    setTotalSupply(totalSupply)
-                    setRank(rank)
-                    setSymbol(symbol.toUpperCase())
                     setAtlDate(atlDate)
                 })
         }
@@ -144,21 +131,21 @@ const CoinDetail = ({ activeCoin }) => {
 
     const renderCoin = coinData.map((coin, idx) => {
 
-        return <div key={idx} className=' bg-gray-800 m-1 p-2 text-white rounded-lg w-64' >
-            <p className='text-gray-400 text-2xl font-bold'>{coin.year}</p>
-            <img src={coin.image.thumb} className='m-auto  ' />
+        return <div key={idx} className=' bg-gray-800 m-1 p-1 text-white rounded-lg w-28 sm:w-56 lg:64' >
+            <p className=' text-xs font-bold sm:text-lg'>{coin.year}</p>
+            <img src={coin.image.thumb} alt={coin.name} className='m-auto w-5 sm:w-6 ' />
 
-            <div>
+            <div className='p-1 '>
                 {
                     coin.market_data.current_price.usd < 1 ?
                         <>
-                            <p className='mt-2'>Price</p>
-                            <p className=' text-3xl font-bold ' >${coin.market_data.current_price.usd.toLocaleString('en-US', {
+                            <p className='text-xs  text-gray-400  sm:text-sm md:text-lg'>Price</p>
+                            <p className=' text-sm  font-bold sm:text-lg md:text-3xl' >${coin.market_data.current_price.usd.toLocaleString('en-US', {
                                 minimumFractionDigits: 2,
                                 maximumFractionDigits: 8
                             })}</p> </> : <>
-                            <p className=''>Price</p>
-                            <p className=' text-3xl font-bold'>${coin.market_data.current_price.usd.toLocaleString('en-US', {
+                            <p className='text-xs text-gray-400 sm:text-sm md:text-lg'>Price</p>
+                            <p className=' text-sm  font-bold sm:text-lg md:text-3xl'>${coin.market_data.current_price.usd.toLocaleString('en-US', {
                                 minimumFractionDigits: 2,
                                 maximumFractionDigits: 2
                             })}</p>
@@ -166,30 +153,39 @@ const CoinDetail = ({ activeCoin }) => {
                 }
             </div>
             <div className=''>
-                <p className='text-gray-400'> Market Cap </p>
-                <p className='text-2xl font-bold  '> ${formatter(coin.market_data.market_cap.usd)}</p>
+                <p className='text-xs text-gray-400 sm:text-sm md:text-lg'>Market Cap </p>
+                <p className='text-xs font-bold sm:text-lg  md:text-3xl'> ${formatter(coin.market_data.market_cap.usd)}</p>
             </div>
 
-            <div className=''>
-                <p className='text-gray-400'> 24-hour trading volume </p>
-                <p className='text-2xl font-bold '>${formatter(coin.market_data.total_volume.usd)} </p>
+            <div className='p-1'>
+                <p className='text-xs text-gray-400 sm:text-sm md:text-lg'> 24h volume </p>
+                <p className='text-xs font-bold sm:text-lg  md:text-3xl'>${formatter(coin.market_data.total_volume.usd)} </p>
             </div>
             {
-                coin.community_data.twitter_followers && <>
+                coin.community_data.twitter_followers !== null ? <>
                     <div className=''>
 
-                        <p className='text-gray-400'> <TwitterIcon /> Followers </p>
-                        <p className=' font-bold '>{formatter(coin.community_data.twitter_followers)}</p>
+                        <p className='text-xs text-gray-400 sm:text-sm md:text-lg'> <TwitterIcon /> Followers </p>
+                        <p className='text-xs sm:text-lg  md:text-lg'>{formatter(coin.community_data.twitter_followers)}</p>
                     </div>
-                </>
+                </> : <> <div className=''>
 
+                    <p className='text-xs text-gray-400 sm:text-sm md:text-lg'> <TwitterIcon /> Followers </p>
+                    <p className='text-xs sm:text-lg  md:text-xl'> N/A</p>
+                </div>
+                </>
             }
 
             {
-                coin.community_data.reddit_subscribers && <>
+                coin.community_data.reddit_subscribers !== null ? <>
                     <div className=''>
-                        <p className='text-gray-400'> <RedditIcon /> Subscribers </p>
-                        <p className=' font-bold'> {formatter(coin.community_data.reddit_subscribers)}</p>
+                        <p className='text-xs text-gray-400 sm:text-sm md:text-lg'> <RedditIcon /> Subscribers </p>
+                        <p className='text-xs sm:text-lg md:text-lg'> {formatter(coin.community_data.reddit_subscribers)}</p>
+                    </div>
+                </> : <>
+                    <div className=''>
+                        <p className='text-xs text-gray-400 sm:text-sm md:text-lg'> <RedditIcon /> Subscribers </p>
+                        <p className='text-xs sm:text-lg md:text-lg'> N/A</p>
                     </div>
                 </>
             }
@@ -199,13 +195,11 @@ const CoinDetail = ({ activeCoin }) => {
 
     return (
         <>
-            <div className=''>
-                <p className='text-white text-4xl text-center m-2'>{activeCoin.toUpperCase()}</p>
+            <div >
+                <p className='text-white text-center m-1 sm:text-2xl '>{activeCoin.toUpperCase()}</p>
 
                 <CoinInfo
-                    totalSupply={totalSupply}
-                    circulatingSupply={circulatingSupply}
-                    rank={rank}
+
                     athPrice={athPrice}
                     athDate={athDate}
                     atlDate={atlDate}
@@ -216,13 +210,12 @@ const CoinDetail = ({ activeCoin }) => {
                     formatter={formatter}
                     twitterFollowers={twitterFollowers}
                     redditSubs={redditSubs}
-                    symbol={symbol}
                     image={image} />
 
 
             </div>
             <div className='w-12/12 m-auto flex'>
-                <div className='flex justify-center text-center flex-wrap m-auto hover:justify-between"'>
+                <div className='flex justify-center text-center flex-wrap m-auto  md:min-w-2'>
                     {renderCoin}
                 </div>
             </div>
