@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import axios from 'axios'
 import CoinList from './CoinList'
 import CoinDetail from './CoinDetail'
 import SearchIcon from '@mui/icons-material/Search';

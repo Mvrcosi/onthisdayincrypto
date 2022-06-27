@@ -6,11 +6,11 @@ import FooterExchangeLinks from './FooterExchangeLinks';
 const Footer:React.FC = () => {
 
 
-    const [cryptocomImage, setCryptoComImage] = useState('')
-    const [binanceImage, setBinanceImage] = useState('')
-    const [coinbaseImage, setCoinbaseImage] = useState('')
+    const [cryptocomImage, setCryptoComImage] = useState<string>('')
+    const [binanceImage, setBinanceImage] = useState<string>('')
+    const [coinbaseImage, setCoinbaseImage] = useState<string>('')
 
-    const exchangeImages = []
+    const exchangeImages:string[] = []
 
     useEffect(() => {
 

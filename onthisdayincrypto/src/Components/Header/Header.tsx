@@ -1,17 +1,37 @@
 import React from 'react'
+import styled from 'styled-components'
+
+import tw from 'twin.macro';
 
 const Header: React.FC = () => {
     return (
         <header>
-            <nav className=' flex justify-between items-center bg-slate-700 text-stone-50 '>
-                <div >
-                    <p className='text-[22px]  sm:text-[28px]  md:text-[32px]  lg:text-[34px] 2xl:text-[38px] tracking-wide' >Onthisdayin<span className='font-thin'>crypto</span></p>
+            <Nav>
+                <div>
+                    <NavText>Onthisdayin<span className='font-thin'>crypto</span></NavText>
                 </div>
-                <div className='my-5 px-3 '>
-                </div>
-            </nav>
+            </Nav>
         </header>
     )
 }
+const Nav = styled.nav`
+    ${tw`
+        flex 
+        justify-between 
+        items-center bg-gray-500 
+        text-white
+    `}
+`
+const NavText = styled.p`
+    ${tw`
+        text-[22px] 
+        tracking-wide
+        sm:text-[28px]  
+        md:text-[32px]  
+        lg:text-[34px] 
+        2xl:text-[38px] 
+    `}
+`
+
 
 export default Header

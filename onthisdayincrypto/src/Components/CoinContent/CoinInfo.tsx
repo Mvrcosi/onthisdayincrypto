@@ -8,7 +8,6 @@ interface CoinInfoProps {
     athDate: string;
     atlPrice: number;
     atlDate: string;
-    year: number;
     price: number;
     marketCap: number;
     volume: number;
@@ -57,7 +56,7 @@ const CoinInfo:React.FC<CoinInfoProps> = props => {
             </div>
             <div className='text-center w-1/3'>
                 <p className='text-gray-400 text-xs font-bold  sm:text-sm  md:text-xl'>Today</p>
-                <img className='w-5 m-auto sm:w-8' src={props.image} />
+                <img className='w-5 m-auto sm:w-8' src={props.image} alt=''/>
                 {
                     props.price < 1 ? <>
                         <p className='text-gray-400 text-xs sm:text-sm md:text-xl'>Price</p>

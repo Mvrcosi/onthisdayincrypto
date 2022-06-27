@@ -1,8 +1,7 @@
 import React from 'react'
-import CoinList from './CoinList'
 import CoinSearchBar from './CoinSearchBar'
 
-const CoinsContainer = () => {
+const CoinsContainer:React.FC = () => {
     return (
         <div className='min-h-screen bg-gray-900' >
             <CoinSearchBar />

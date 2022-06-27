@@ -12,9 +12,7 @@ interface CoinDetailProps {
 
 const CoinDetail:React.FC<CoinDetailProps> = (props) => {
 
-
     const [coinData, setCoinData] = useState<[]>([])
-    const [year, setYear] = useState<number>(0)
     const [image, setImage] = useState<string>('')
     const [price, setPrice] = useState<number>(0)
     const [marketCap, setMarketCap] = useState<any>(0)
@@ -29,6 +27,7 @@ const CoinDetail:React.FC<CoinDetailProps> = (props) => {
     const coinInfo:any= []
 
     useEffect(() => {
+        document.title = `On This Day | ${props.activeCoin.toUpperCase()}`
         const getCoinData = async (coin:string, years:number) => {
             let today = new Date();
             let dd = String(today.getDate()).padStart(2, '0');
@@ -172,7 +171,6 @@ const CoinDetail:React.FC<CoinDetailProps> = (props) => {
                     athDate={athDate}
                     atlDate={atlDate}
                     atlPrice={atlPrice}
-                    year={year} 
                     price={price}
                     marketCap={marketCap}
                     volume={volume}
