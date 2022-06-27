@@ -3,57 +3,33 @@ import React, { useEffect, useState } from 'react'
 import CoinInfo from './CoinInfo'
 import TwitterIcon from '@mui/icons-material/Twitter';
 import RedditIcon from '@mui/icons-material/Reddit';
+import {formatter} from '../../helpers/foramtter'
+import coinGecko from '../../api/coinGecko'
 
-const CoinDetail = ({ activeCoin }) => {
+interface CoinDetailProps {
+    activeCoin: string;
+}
 
-
-
-
-    const formatter = (n) => {
-        if (n < 1e3) return n;
-        if (n >= 1e3 && n < 1e6) return +(n / 1e3).toFixed(1) + "K";
-        if (n >= 1e6 && n < 1e9) return +(n / 1e6).toFixed(1) + "M";
-        if (n >= 1e9 && n < 1e12) return +(n / 1e9).toFixed(1) + "B";
-        if (n >= 1e12) return +(n / 1e12).toFixed(1) + "T";
-        return n
-    }
+const CoinDetail:React.FC<CoinDetailProps> = (props) => {
 
 
-    const [coinData, setCoinData] = useState([])
+    const [coinData, setCoinData] = useState<[]>([])
+    const [year, setYear] = useState<number>(0)
+    const [image, setImage] = useState<string>('')
+    const [price, setPrice] = useState<number>(0)
+    const [marketCap, setMarketCap] = useState<any>(0)
+    const [volume, setVolume] = useState<any>(0)
+    const [twitterFollowers, setTwitterFollowers] = useState<any>(0)
+    const [redditSubs, setRedditSubs] =  useState<number>(0)
+    const [athPrice, setAthPrice] =  useState<number>(0)
+    const [atlPrice, setAtlPrice] =  useState<number>(0)
+    const [athDate, setAthDate] =  useState<string>('')
+    const [atlDate, setAtlDate] = useState<string>('')
 
-    const [year, setYear] = useState('')
-    const [image, setImage] = useState('')
-    const [price, setPrice] = useState('')
-    const [marketCap, setMarketCap] = useState('')
-    const [volume, setVolume] = useState('')
-    const [twitterFollowers, setTwitterFollowers] = useState('')
-    const [redditSubs, setRedditSubs] = useState('')
-    const [athPrice, setAthPrice] = useState('')
-    const [atlPrice, setAtlPrice] = useState('')
-    const [athDate, setAthDate] = useState('')
-    const [atlDate, setAtlDate] = useState('')
-
-
-
-    // const getTodaysDate = () => {
-    //     let today = new Date();
-    //     let dd = String(today.getDate()).padStart(2, '0');
-    //     let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-    //     let yyyy = today.getFullYear();
-    //     setYear(yyyy)
-    //     today = `${dd}-${mm}-${yyyy}`;
-    //     return today
-    // }
-
-    const coinInfo = []
-
-
+    const coinInfo:any= []
 
     useEffect(() => {
-
-
-
-        const getCoinData = async (coin, years) => {
+        const getCoinData = async (coin:string, years:number) => {
             let today = new Date();
             let dd = String(today.getDate()).padStart(2, '0');
             let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
@@ -62,7 +38,7 @@ const CoinDetail = ({ activeCoin }) => {
             for (let i = 0; i < years; i++) {
                 yyyy -= 1
 
-                await axios.get(`https://api.coingecko.com/api/v3/coins/${coin}/history?date=${dd}-${mm}-${yyyy}`).then((res) => {
+                await coinGecko.get(`${coin}/history?date=${dd}-${mm}-${yyyy}`).then((res) => {
 
                     if (Object.keys(res.data).includes('market_data')) {
                         coinInfo.push(res.data)
@@ -82,17 +58,14 @@ const CoinDetail = ({ activeCoin }) => {
             }
             setCoinData(coinInfo)
         }
-        getCoinData(activeCoin, 10)
+        getCoinData(props.activeCoin, 10)
 
-
-
-
-    }, [activeCoin])
+    }, [props.activeCoin])
 
 
     useEffect(() => {
 
-        const coinRequest = (coin) => {
+        const coinRequest = (coin:string) => {
             axios.get(`https://api.coingecko.com/api/v3/coins/${coin}`)
                 .then((res) => {
 
@@ -122,14 +95,10 @@ const CoinDetail = ({ activeCoin }) => {
                 })
         }
 
-        coinRequest(activeCoin)
-    }, [activeCoin])
+        coinRequest(props.activeCoin)
+    }, [props.activeCoin])
 
-
-
-
-
-    const renderCoin = coinData.map((coin, idx) => {
+    const renderCoin = coinData.map((coin:any, idx:any) => {
 
         return <div key={idx} className=' bg-gray-800 m-1 p-1 text-white rounded-lg w-28 sm:w-56 lg:64' >
             <p className=' text-xs font-bold sm:text-lg'>{coin.year}</p>
@@ -196,15 +165,15 @@ const CoinDetail = ({ activeCoin }) => {
     return (
         <>
             <div >
-                <p className='text-white text-center m-1 sm:text-2xl '>{activeCoin.toUpperCase()}</p>
+                <p className='text-white text-center m-1 sm:text-2xl '>{props.activeCoin.toUpperCase()}</p>
 
                 <CoinInfo
-
                     athPrice={athPrice}
                     athDate={athDate}
                     atlDate={atlDate}
                     atlPrice={atlPrice}
-                    year={year} price={price}
+                    year={year} 
+                    price={price}
                     marketCap={marketCap}
                     volume={volume}
                     formatter={formatter}

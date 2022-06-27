@@ -1,9 +1,11 @@
+import React from 'react';
 import CoinsContainer from "./Components/CoinContent/CoinsContainer";
-import Header from "./Components/Header/Header";
+
 import Footer from './Components/Footer/Footer'
+import Header from './Components/Header/Header';
 
+const App: React.FC = () => {
 
-function App() {
   return (
     <div className="App">
       <Header />

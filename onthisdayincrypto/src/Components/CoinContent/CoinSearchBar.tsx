@@ -3,19 +3,22 @@ import axios from 'axios'
 import CoinList from './CoinList'
 import CoinDetail from './CoinDetail'
 import SearchIcon from '@mui/icons-material/Search';
-const CoinSearchBar = () => {
+import coinGecko from '../../api/coinGecko'
 
-    const [search, setSearch] = useState('')
-    const [coinList, setCoinList] = useState([])
-    const [activeCoin, setActiveCoin] = useState('bitcoin')
-    const [activeIndex, setActiveIndex] = useState(0)
 
-    const onInputChange = e => {
+const CoinSearchBar: React.FC = () => {
+
+    const [search, setSearch] = useState<string>('')
+    const [coinList, setCoinList] = useState<any[]>([])
+    const [activeCoin, setActiveCoin] = useState<string>('bitcoin')
+    const [activeIndex, setActiveIndex] = useState<number>(0)
+
+    const onInputChange = (e:any) => {
         setSearch(e.target.value)
     }
 
     useEffect(() => {
-        axios.get('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false', {
+        coinGecko.get('markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false', {
         }).then((res) => {
             setCoinList(res.data)
         })
@@ -30,7 +33,7 @@ const CoinSearchBar = () => {
     );
 
 
-    const handleChoice = (name, idx) => {
+    const handleChoice = (name:string, idx:number) => {
         setActiveCoin(name)
         setActiveIndex(idx)
     }

@@ -3,7 +3,7 @@ import axios from 'axios'
 import TwitterIcon from '@mui/icons-material/Twitter';
 import FooterExchangeLinks from './FooterExchangeLinks';
 
-const Footer = () => {
+const Footer:React.FC = () => {
 
 
     const [cryptocomImage, setCryptoComImage] = useState('')
